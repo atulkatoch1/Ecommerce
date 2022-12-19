@@ -1,5 +1,23 @@
 const express = require('express');
 const {data} = require('./data');
+require('dotenv').config();
+import userRoute from './routes/userRoute';
+import {config} from './config';
+
+const mongoose = require('mongoose');
+const mongodbUrl = config.MONGODB_URL
+
+const connectDB = async () => {
+  try {
+    mongoose.set('strictQuery', true);
+      const conn = await mongoose.connect(mongodbUrl)
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+      console.log(error);
+      process.exit(1);
+  }
+}
+connectDB();
 
 const app = express();
 const cors = require("cors");
@@ -9,6 +27,8 @@ var corsOptions = {
     optionsSuccessStatus: 200, // For legacy browser support
   };
 app.use(cors(corsOptions));
+
+app.use("/api/users", userRoute);
 
 app.get("/api/products/:id", (req,res) => {
   const productId = req.params.id;
