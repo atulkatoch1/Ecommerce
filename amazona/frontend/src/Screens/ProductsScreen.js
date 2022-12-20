@@ -37,14 +37,14 @@ const ProductsScreen = () => {
 
   const openModal = (product) => {
     setModalVisible(true);
-    setId(product._id);
-        setName(product.name);
-        setPrice(product.price);
-        setDescription(product.description);
-        setImage(product.image);
-        setBrand(product.brand);
-        setCategory(product.category);
-        setCountInStock(product.countInStock);
+        setId(product._id ? product._id : '');
+        setName(product.name ? product.name : '');
+        setPrice(product.price ? product.price : '');
+        setDescription(product.description ? product.description : '');
+        setImage(product.image ? product.image : '');
+        setBrand(product.brand ? product.brand : '');
+        setCategory(product.category ? product.category : '');
+        setCountInStock(product.countInStock ? product.countInStock : '');
   }
 
   const submitHandler = (e) => {
