@@ -19,16 +19,16 @@ const productListSlice = createSlice({
     },
     extraReducers: {
         [listProducts.pending]: (state, action) => {
-            state.loading = true
-          },
-          [listProducts.fulfilled]: (state, action) => {
-            state.loading = false;
-            state.products = action.payload.data
-          },
-          [listProducts.rejected]: (state, action) => {
-            state.loading = false;
-            state.error = action.error
-          },
+          state.loading = true
+        },
+        [listProducts.fulfilled]: (state, action) => {
+          state.loading = false;
+          state.products = action.payload.data
+        },
+        [listProducts.rejected]: (state, action) => {
+          state.loading = false;
+          state.error = action.error
+        }
     }
 });
 

@@ -1,7 +1,9 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const {data} = require('./data');
 require('dotenv').config();
 import userRoute from './routes/userRoute';
+import productRoute from './routes/productRoute';
 import {config} from './config';
 
 const mongoose = require('mongoose');
@@ -20,6 +22,7 @@ const connectDB = async () => {
 connectDB();
 
 const app = express();
+app.use(bodyParser.json());
 const cors = require("cors");
 
 var corsOptions = {
@@ -29,19 +32,20 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/users", userRoute);
+app.use("/api/products", productRoute);
 
-app.get("/api/products/:id", (req,res) => {
-  const productId = req.params.id;
-  const product = data.products.filter(x=>x._id === productId)
-  if (product) {
-    res.send(...product);    
-  } else {
-    res.status(404).send({msg: "Product Not Found"})
-  }
-})
+// app.get("/api/products/:id", (req,res) => {
+//   const productId = req.params.id;
+//   const product = data.products.filter(x=>x._id === productId)
+//   if (product) {
+//     res.send(...product);    
+//   } else {
+//     res.status(404).send({msg: "Product Not Found"})
+//   }
+// })
 
-app.get("/api/products", (req,res) => {
-    res.send(data.products);
-})
+// app.get("/api/products", (req,res) => {
+//     res.send(data.products);
+// })
 
 app.listen(5000, () => { console.log(`Server started at http://localhost:5000`) });

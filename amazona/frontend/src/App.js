@@ -4,8 +4,13 @@ import ProductScreen from './Screens/ProductScreen';
 import HomeScreen from './Screens/HomeScreen';
 import CartScreen from './Screens/CartScreen';
 import SigninScreen from './Screens/SigninScreen';
+import { useSelector } from 'react-redux';
+import RegisterScreen from './Screens/RegisterScreen';
+import ProductsScreen from './Screens/ProductsScreen';
 
 function App() {
+  const userSignin = useSelector(state=>state.userSignin);
+  const {userInfo} = userSignin;
   const openMenu = () => {
     document.querySelector(".sidebar").classList.add("open");
   }
@@ -24,7 +29,10 @@ function App() {
     </div>
     <div className="header-links">
       <a href="cart.html">Cart</a>
-      <Link to="/signin">Sign In</Link>
+      {
+        userInfo && !userInfo.msg ? <Link to="/profile">{userInfo.name}</Link> :
+        <Link to="/signin">Sign In</Link>
+      }
     </div>
   </header>
   <aside className="sidebar">
@@ -45,6 +53,8 @@ function App() {
     <div className="content">
       <Routes>
         <Route path='/signin' element={<SigninScreen />}/>
+        <Route path='/register' element={<RegisterScreen />}/>
+        <Route path='/products' element={<ProductsScreen />}/>
         <Route path='/product/:id' element={<ProductScreen />}/>
         <Route path='/cart/:id' element={<CartScreen />}/>
         <Route path='/' element={<HomeScreen />}/>
