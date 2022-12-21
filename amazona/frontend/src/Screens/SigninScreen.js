@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { signin } from '../feature/userSigninSlice';
 
@@ -10,10 +10,12 @@ const SigninScreen = () => {
   const {loading, userInfo, error} = userSignin;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirect = location.search ? location.search.split("=")[1] : '/';
 
   useEffect(() => {
     if (userInfo && userInfo.msg === undefined) {
-      navigate('/');
+      navigate(redirect);
     }
     return () => {
       //
@@ -61,7 +63,7 @@ const SigninScreen = () => {
                 New to amazona
             </li>
             <li>
-                <Link to="/register" className='button secondary text-center'>Create your amazona account</Link>
+            <Link to={redirect === "/" ? "/register" : "/register?redirect=" + redirect} className="button secondary text-center" >Create your amazona account</Link>
             </li>
         </ul>
     </form>

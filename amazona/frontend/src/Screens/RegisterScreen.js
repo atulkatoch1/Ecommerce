@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { register } from '../feature/userRegisterSlice';
 
@@ -12,10 +12,12 @@ const RegisterScreen = () => {
   const {loading, userInfo, error} = userRegister;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirect = location.search ? location.search.split("=")[1] : '/';
 
   useEffect(() => {
     if (userInfo && userInfo.msg === undefined) {
-      navigate('/');
+      navigate(redirect);
     }
     return () => {
       //
@@ -75,8 +77,7 @@ const RegisterScreen = () => {
             </li>
             <li>
                 Already have an account?
-                <Link to="/signin" className="button secondary text-center" >Sign-in</Link>
-                {/* <Link to={redirect === "/" ? "signin" : "signin?redirect=" + redirect} className="button secondary text-center" >Create your amazona account</Link> */}
+                <Link to={redirect === "/" ? "/signin" : "/signin?redirect=" + redirect} className="button secondary text-center" >Create your amazona account</Link>
             </li>
         </ul>
     </form>
