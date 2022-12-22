@@ -20,7 +20,7 @@ const SigninScreen = () => {
     return () => {
       //
     }
-  }, [userInfo])
+  }, [userInfo, navigate, redirect])
 
   const submitHandler = (e) => {
     e.preventDefault()

@@ -18,10 +18,16 @@ const userSigninSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
+        signout: (state, action) => {  
+            state.loading = false;
+            state.userInfo = null
+            Cookie.remove('userInfo');
+            Cookie.remove('cartItems');
+        }
     },
     extraReducers: {
         [signin.pending]: (state, action) => {
-        state.loading = true
+            state.loading = true
         },
         [signin.fulfilled]: (state, action) => {
             state.loading = false;
@@ -36,5 +42,5 @@ const userSigninSlice = createSlice({
         },
     });
 
-export const {  } = userSigninSlice.actions
+export const { signout } = userSigninSlice.actions
 export default userSigninSlice.reducer

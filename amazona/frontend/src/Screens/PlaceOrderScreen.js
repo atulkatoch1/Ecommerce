@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { resetCart } from '../feature/cartSlice';
 
 const PlaceOrderScreen = () => {
 
   const navigate = useNavigate();
+  const params = useParams();
+  console.log(params,'params');
 
   const cart = useSelector(state => state.cart);
+  const userSignin = useSelector(state=>state.userSignin);
+  const {loading, userInfo, error} = userSignin;
 
   const { cartItems, shipping, payment } = cart;
   if (!shipping.address) {
@@ -26,6 +31,16 @@ const PlaceOrderScreen = () => {
   const placeOrderHandler = () => {
     // create an order
   }
+
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/');
+    }
+    return () => {
+      //
+    }
+  }, [userInfo, navigate])
 
   return <div>
     <CheckoutSteps step1 step2 step3 step4 ></CheckoutSteps>

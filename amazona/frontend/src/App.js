@@ -1,19 +1,26 @@
 import './App.css';
-import {BrowserRouter, Routes, Route, Link} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import ProductScreen from './Screens/ProductScreen';
 import HomeScreen from './Screens/HomeScreen';
 import CartScreen from './Screens/CartScreen';
 import SigninScreen from './Screens/SigninScreen';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import RegisterScreen from './Screens/RegisterScreen';
 import ProductsScreen from './Screens/ProductsScreen';
 import ShippingScreen from './Screens/ShippingScreen';
 import PaymentScreen from './Screens/PaymentScreen';
 import PlaceOrderScreen from './Screens/PlaceOrderScreen';
+import { signout } from './feature/userSigninSlice';
 
 function App() {
   const userSignin = useSelector(state=>state.userSignin);
   const {userInfo} = userSignin;
+  const dispatch = useDispatch();
+
+  const signoutHandler = () => {
+    dispatch(signout());
+  }
+
   const openMenu = () => {
     document.querySelector(".sidebar").classList.add("open");
   }
@@ -31,9 +38,18 @@ function App() {
       <Link to="/">amazona</Link>
     </div>
     <div className="header-links">
-      <a href="cart.html">Cart</a>
+      <a href="#">Cart</a>
       {
-        userInfo && !userInfo.msg ? <Link to="/profile">{userInfo.name}</Link> :
+        userInfo && !userInfo.msg ? (
+          <div className='dropdown'>
+            <Link to="#">
+              {userInfo.name} <i className='fa fa-caret-down'></i>{' '}
+            </Link>
+            <ul className='dropdown-content'>
+              <Link to="#signout" onClick={signoutHandler}>Sign Out</Link>
+            </ul>
+          </div>
+        ) :
         <Link to="/signin">Sign In</Link>
       }
     </div>
